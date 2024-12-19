@@ -44,6 +44,8 @@ func (s *Server) Start() {
 }
 
 func (s *Server) CalculateIVFSuccessHandler(w http.ResponseWriter, r *http.Request) {
+	s.Logger.Printf("Received request from %s", r.RemoteAddr)
+
 	if r.Method != http.MethodGet {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		return
@@ -192,7 +194,7 @@ func (s *Server) validateInput(params url.Values) (*models.IVFInput, error) {
 		}
 	}
 
-	if !onlyOneTrue(known_reasons, unexplainedInfertilitySel, noReasonSel) {
+	if !utils.OnlyOneTrue(known_reasons, unexplainedInfertilitySel, noReasonSel) {
 		return nil, fmt.Errorf("known_reasons OR unexplained_infertility OR no_reason is required")
 	}
 
@@ -241,18 +243,4 @@ func processKnownReasons(params *url.Values, paramName string) (bool, error) {
 		}
 	}
 	return false, fmt.Errorf("%s is required", paramName)
-}
-
-func onlyOneTrue(b1, b2, b3 bool) bool {
-	count := 0
-	if b1 {
-		count++
-	}
-	if b2 {
-		count++
-	}
-	if b3 {
-		count++
-	}
-	return count == 1
 }

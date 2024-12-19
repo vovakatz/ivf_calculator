@@ -1,28 +1,34 @@
 package server
 
 import (
+	"log"
 	"math"
 
 	"ivf_calculator/internal/models"
 )
+
+type Config struct {
+	Repo   FormulaGetter
+	Logger *log.Logger
+}
 
 type FormulaGetter interface {
 	GetFormula(usingOwnEggs string, attemptedIVFPreviously string, isReasonKnown string) (*models.Formula, error)
 }
 
 type SuccessCalculator struct {
-	repo FormulaGetter
+	*Config
 }
 
-func NewSuccessCalculator(repo FormulaGetter) *SuccessCalculator {
+func NewSuccessCalculator(config *Config) *SuccessCalculator {
 	return &SuccessCalculator{
-		repo: repo,
+		config,
 	}
 }
 
 // CalculateSuccess calculates the success probability using the formula
 func (s *SuccessCalculator) CalculateSuccess(params *models.IVFInput) (float64, error) {
-	f, err := s.repo.GetFormula(params.UseOwnEggs, params.IVFUsed, params.ReasonKnown)
+	f, err := s.Repo.GetFormula(params.UseOwnEggs, params.IVFUsed, params.ReasonKnown)
 	if err != nil {
 		return 0, err
 	}

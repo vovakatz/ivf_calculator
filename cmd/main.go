@@ -15,7 +15,10 @@ func main() {
 		FilePath: "internal/repo/data/ivf_success_formulas.csv",
 		Logger:   logger,
 	})
-	ivfService := server.NewSuccessCalculator(ivfRepo)
+	ivfService := server.NewSuccessCalculator(&server.Config{
+		Logger: logger,
+		Repo:   ivfRepo,
+	})
 
 	s := api.New(&api.Config{
 		Port:       ":8080",

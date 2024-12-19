@@ -28,13 +28,14 @@ Will return {"success_rate": **62.21** }
 ## TODOs ##
 - Better test coverage.  The layers are connected via interfaces so it should be easy to mock.  
 There is one actual test, however.
-- Better input validation.  Most of the validation is there but few edge cases still need to be thought through.
+- Better input validation.  Most of the validation is there but few edge cases still need to be thought through.  It is 
+a good idea to validate in the backend as well as frontend.
 - Implement structured logging.  Even tho the logger is initialized and passed down the chain, it is not really used 
 and does not allow to easily identify errors and warnings and infos.
 
 ## Notes ##
 - I tried to mimic the CDC form variables and their values.  Some of them are inconsistent in terms of naming.  For example 
-`donotknow` vs `eggSource` vs `previous_live_births`.  I also implemented `Yes/No` (which is case sensative) 
+`donotknow` vs `eggSource` vs `previous_live_births`.  I also implemented `Yes/No` (which is case-sensitive) 
 and not `true/false` as values for the checkboxes.  In a production env, I would want to make the endpoint less flaky.
 - To match the result from the assignment README, I had to round the BMI to a single decimal.  Otherwise, the results were
  very slightly off (by 0.01).

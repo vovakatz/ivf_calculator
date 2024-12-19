@@ -1,5 +1,6 @@
 package models
 
+// IVFInput holds the calculator request input.
 type IVFInput struct {
 	Age          int
 	Weight       int
